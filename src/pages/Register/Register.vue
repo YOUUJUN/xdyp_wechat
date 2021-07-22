@@ -145,14 +145,15 @@
                 }));
             },
 
-             getQuery() {
-                 let search = location.search;
-                 let arr = search.split('=');
-                 let target = arr[1];
-                 if(target){
-                     return target;
-                 }
-                 return false;
+            //   Register.html?action=Calc.html
+            getQuery() {
+                let search = location.search;
+                let arr = search.split('=');
+                let target = arr[1];
+                if(target){
+                 return target;
+                }
+                return false;
             }
 
 

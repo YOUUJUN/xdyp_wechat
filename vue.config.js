@@ -81,7 +81,7 @@ delete require.cache[module.id];
 
 module.exports = function(){
     return {
-        publicPath : '/',
+        publicPath : '/erp',
         outputDir : './dist/vue-public',
         assetsDir : "static",
         filenameHashing : true,
@@ -94,11 +94,6 @@ module.exports = function(){
         productionSourceMap : true, //开启后出错的时候，除错工具将直接显示原始代码，而不是转换后的代码。关闭可以减少打包体积
         configureWebpack : {
             plugins : [
-
-                new webpack.ProvidePlugin({
-                    $ : "jquery",
-                    jquery : "jquery"
-                }),
 
                 new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
@@ -126,6 +121,9 @@ module.exports = function(){
                         return args
                     })
             }
+
+
+
         }
     }
 };

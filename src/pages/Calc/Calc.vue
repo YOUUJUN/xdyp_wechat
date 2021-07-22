@@ -31,7 +31,7 @@
                         <template #left-icon>
 
                             <van-popover v-model="showPopover1" trigger="click" placement="bottom-start" theme="dark">
-                                <div class="pop-panel">参考三钢对外发布的废钢收购价格适时调整</div>
+                                <div class="pop-panel">参考钢厂对外发布的废钢收购价格适时调整</div>
                                 <template #reference>
                                     <van-icon name="question-o" />
                                 </template>
@@ -214,7 +214,7 @@
             <div class="alert">
 
                 <p>1.估价公式：整备质量*（1-扣杂率）*废钢压块价格*（1-服务费率）-运费-完整率扣款-垃圾清运费</p>
-                <p>2.收购价格：参考三钢对外发布的废钢收购价格适时调整。</p>
+                <p>2.收购价格：参考钢厂对外发布的废钢收购价格适时调整。</p>
                 <p>3.车辆整备质量：请查阅车辆行驶证副页上的“整备质量”</p>
                 <p>4.扣杂率：即车辆废铁之外的重量</p>
                 <p>5.服务费：回收总价的15%</p>
@@ -239,12 +239,15 @@
 
     import { Toast } from 'vant';
 
-    // const page_static = {
-    //     model_name: 'wx_old_part_regist',
-    //     main_ado_name: 'wx_user',
-    //     save_act: 'Save',
-    //     add_act: 'Add',
-    // };
+    const adapter = {
+
+        wx_car_access:{
+            ados:{
+                data_m:{rows:'dataList',vars: 'vars'}
+            },
+            group:true,
+        }
+    };
 
     const page_static = {
         groupName: 'wx_car_access',
@@ -268,8 +271,10 @@
 
                 sych_price : '',
                 xdc_price : '',
+                garbage_price : 300,
 
                 dataList : [],
+                vars : {},
 
 
                 batteryColumns: ['完整', '缺失'],
@@ -292,8 +297,25 @@
 
         },
 
-        beforeCreate(){
-            this.$e = new this.$Engine();
+        created(){
+            this.$e = new this.$Engine(this, adapter);
+            console.log('$e', this.$e);
+
+            this.$e.init(null, 'wx_car_access' , null, {
+
+            }).then(res => {
+                console.log('this ==>',this);
+                console.log('res ==>',res);
+                console.log("this.dataList ===>",this.dataList);
+            }).catch(err => {
+                console.error("err====>",err);
+            });
+
+        },
+
+
+        beforeDestroy(){
+            this.$e.release();
         },
 
         watch:{
@@ -312,29 +334,15 @@
                 this.price = newData.fg_price;
                 this.sych_price = newData.sych_price;
                 this.xdc_price = newData.xdc_price;
+                this.garbage_price = newData.garbage_price;
             }
         },
 
         computed : {
             cleaningFee : function () {
-                return (this.weight / 1000) * 300;
+                let vm = this;
+                return parseInt((vm.weight / 1000) * vm.garbage_price);
             }
-        },
-
-        created(){
-            let adapter = this.$e.getActiveModule(page_static.model_name, true).createAdapter(this, true);
-            adapter.mappingData(page_static.main_ado_name, "dataList");
-
-            let vm = this;
-            this.$e.init(page_static.groupName, page_static.model_name, null, {
-                _act: '',
-            }).then(function (res) {
-                console.log('res',res);
-                console.log("this.dataList ===>",vm.dataList);
-            }).catch(err =>{
-                console.log("err ============>",err);
-
-            });
         },
 
 
@@ -352,12 +360,6 @@
 
             onSubmit(values) {
                 this.doCalc();
-                // $e.request(page_static.model_name, 'call', page_static.save_act, page_static.main_ado_name, null, {
-                //     _amgn: page_static.model_name,
-                //     success: function () {
-                //
-                //     }
-                // });
             },
 
 

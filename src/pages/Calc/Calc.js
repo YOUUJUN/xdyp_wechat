@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Home from './Calc.vue'
 import store from '../../store/index'
-import Engine from './../../utils/engine_module.js';
+import Engine from './../../assets/core/Engine.js'
 Vue.prototype.$Engine = Engine;
 
 import { NavBar, Form, Field, Button, Picker, Popup, Popover, Icon } from 'vant';

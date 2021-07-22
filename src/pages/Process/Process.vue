@@ -29,25 +29,18 @@
                             <van-button size="small" type="info" @click="search">搜索</van-button>
                         </template>
                     </van-field>
-
                 </div>
             </van-cell-group>
 
 
             <div class="process">
-                <van-steps class="process-panel" direction="vertical" :active="0">
-                    <van-step>
-                        <h3>【城市】物流状态1</h3>
-                        <p>2016-07-12 12:40</p>
+                <van-steps class="process-panel" direction="vertical" :active="4">
+
+                    <van-step v-for="item of process">
+                        <h3>{{item.name}}</h3>
+                        <p>{{item.time}}</p>
                     </van-step>
-                    <van-step>
-                        <h3>【城市】物流状态2</h3>
-                        <p>2016-07-11 10:00</p>
-                    </van-step>
-                    <van-step>
-                        <h3>快件已发货</h3>
-                        <p>2016-07-10 09:30</p>
-                    </van-step>
+
                 </van-steps>
             </div>
 
@@ -64,7 +57,6 @@
 <script>
 
     import { Toast } from 'vant';
-
     const page_static = {
         model_name: 'wx_old_part_regist',
         act_send : 'QueryVerifyCode',
@@ -72,12 +64,35 @@
     };
 
     export default {
-        components : {},
+        components: {
+        },
 
         data() {
 
             return {
                 carNo : '',
+                process : [
+                    {
+                        name : '车辆已进场',
+                        time : '2016-07-10 09:30',
+                    },
+                    {
+                        name : '已验车',
+                        time : '2016-07-10 09:30',
+                    },
+                    {
+                        name : '已预处理',
+                        time : '2016-07-10 09:30',
+                    },
+                    {
+                        name : '已开具报废证明',
+                        time : '2016-07-10 09:30',
+                    },
+                    {
+                        name : '车管所已注销',
+                        time : '2016-07-10 09:30',
+                    }
+                ]
             }
 
         },
@@ -129,6 +144,7 @@
 
     .process{
         padding:7px;
+        margin-top: 12px;
     }
 
     .process-panel{

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = "http://erp.yuchengchina.com:15280/";
+const baseURL = "http://112.30.151.98:10080/erp";
 
 /**
  * 创建axios实例
