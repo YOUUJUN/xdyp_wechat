@@ -573,7 +573,7 @@ class Engine {
                             throw {code: 101, message: (res.data['message'] || res.data['msg'])};
                         } else {
                             //返回的参数
-                            resolve(res.data['cbps'] || {});
+                            resolve(res.data || {});
                         }
                     }
                 } catch (err) {

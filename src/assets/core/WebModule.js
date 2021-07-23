@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const baseURL = "http://112.30.151.98:10080/erp";
+// const baseURL = "http://112.30.151.101:15380/dev/";
 
 /**
  * 创建axios实例
